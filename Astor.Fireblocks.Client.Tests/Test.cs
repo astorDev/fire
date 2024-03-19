@@ -1,4 +1,5 @@
 using dotenv.net;
+using Fluenv;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +13,7 @@ public class Test
     {
         DotEnv.Load();
         var configuration = new ConfigurationManager();
-        configuration.AddEnvironmentVariables();
+        configuration.AddFluentEnvironmentVariables();
         var services = new ServiceCollection();
         services.AddFireblocks(configuration.GetSection("Fireblocks"));
         Services = services.BuildServiceProvider();
