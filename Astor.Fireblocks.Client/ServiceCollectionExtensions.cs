@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Astor.Fireblocks.Client;
 
@@ -10,6 +11,14 @@ public static class ServiceCollectionExtensions
         services.AddOptions<FireblocksClientOptions>()
             .Bind(namedConfigurationSection)
             .ValidateDataAnnotations();
+
+        services.AddHttpClient<FireblocksClient>((sp, cl) =>
+        {
+            var options = sp.GetRequiredService<IOptions<FireblocksClientOptions>>();
+            cl.BaseAddress = new(options.Value.Url);
+        });
+
+        services.AddScoped<FireblocksAuthenticator>();
 
         return services;
     }

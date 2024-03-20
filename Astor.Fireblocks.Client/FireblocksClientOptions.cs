@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace Astor.Fireblocks.Client;
 
