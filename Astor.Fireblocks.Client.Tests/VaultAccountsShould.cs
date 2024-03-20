@@ -7,9 +7,9 @@ namespace Astor.Fireblocks.Client.Tests;
 public class VaultAccountsShould : Test
 {
     [TestMethod]
-    public void ReturnAccounts()
+    public async Task ReturnAccounts()
     {
         var settings = Services.GetRequiredService<IOptions<FireblocksClientOptions>>().Value;
-        Console.WriteLine(settings);
+        var response = await Client.GetAccountsPaged();
     }
 }

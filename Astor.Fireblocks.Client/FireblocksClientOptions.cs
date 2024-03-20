@@ -13,6 +13,4 @@ public record FireblocksClientOptions
 
     [Required]
     public string ApiSecret { get; set; }
-
-    public byte[] ApiSecretBytes => Encoding.UTF8.GetBytes(ApiSecret);
 }
