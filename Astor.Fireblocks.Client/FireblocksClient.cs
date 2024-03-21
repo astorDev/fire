@@ -6,6 +6,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Nist.Queries;
 using Nist.Responses;
 
 namespace Astor.Fireblocks.Client;
@@ -13,22 +14,14 @@ namespace Astor.Fireblocks.Client;
 public partial class FireblocksUris
 {
     public const string V1 = "v1";
-    public const string Vault = "vault";
-    public const string AccountsPaged = "accounts_paged";
-    public static readonly string VaultAccountsPaged = $"{Vault}/{AccountsPaged}";
-    public static readonly string VaultAccountsPagedV1 = $"{V1}/{VaultAccountsPaged}";
 }
 
 public partial class FireblocksClient(HttpClient client, FireblocksAuthenticator authenticator, ILogger<FireblocksClient> logger)
 {
-    public async Task<object> GetAccountsPaged()
+    public async Task<T> GetAsync<T>(string uri, object? query = null)
     {
-        return await GetAsync<object>(FireblocksUris.VaultAccountsPagedV1);
-    }
-
-    public async Task<T> GetAsync<T>(string uri)
-    {
-        return await SendAsync<T>(HttpMethod.Get, uri);
+        var queryUri = query == null ? uri : QueryUri.From(uri, query);
+        return await SendAsync<T>(HttpMethod.Get, queryUri);
     }
 
     public async Task<T> SendAsync<T>(HttpMethod method, string uri, object? requestBody = null)

@@ -1,5 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+using FluentAssertions;
 
 namespace Astor.Fireblocks.Client.Tests;
 
@@ -9,7 +8,15 @@ public class VaultAccountsShould : Test
     [TestMethod]
     public async Task ReturnAccounts()
     {
-        var settings = Services.GetRequiredService<IOptions<FireblocksClientOptions>>().Value;
-        var response = await Client.GetAccountsPaged();
+        var page = await Client.GetAccountsPaged();
+        page.Accounts.Length.Should().NotBe(0);
+    }
+
+    [TestMethod]
+    public async Task AllowFilteringByMinAmountThreshold()
+    {
+        var page = await Client.GetAccountsPaged(new (MinAmountThreshold: 10));
+        var onlyValidAssets = page.Accounts.All(a => a.Assets.All(a => a.Balance >= 10));
+        onlyValidAssets.Should().BeTrue();
     }
 }
