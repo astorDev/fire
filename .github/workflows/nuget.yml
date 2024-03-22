@@ -9,3 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: astorDev/versy/calver/nuget@main
+        with:
+          project: Astor.Fireblock.Client/Astor.Fireblocks.Client
+          nuget-api-key: ${{ secrets.NUGET_API_KEY }}
