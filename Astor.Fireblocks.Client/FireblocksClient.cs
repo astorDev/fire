@@ -24,20 +24,29 @@ public partial class FireblocksClient(HttpClient client, FireblocksAuthenticator
         return await SendAsync<T>(HttpMethod.Get, queryUri);
     }
 
+    public async Task<T> PostAsync<T>(string uri, object requestBody)
+    {
+        return await SendAsync<T>(HttpMethod.Post, uri, requestBody);
+    }
+
     public async Task<T> SendAsync<T>(HttpMethod method, string uri, object? requestBody = null)
     {
-        var requestBodyString = JsonSerializer.Serialize(requestBody);
+        var requestBodyString = requestBody == null ? null : JsonSerializer.Serialize(requestBody, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
         var fullUri = Path.Combine(client.BaseAddress!.ToString(), uri);
 
         var request = new HttpRequestMessage
         {
             RequestUri = new(fullUri),    
-            Method = method,
-            Content = new StringContent(requestBodyString)
+            Method = method
         };
 
-        authenticator.SetHttpRequestHeaders(request.Headers, uri, requestBodyString); 
+        if (!String.IsNullOrEmpty(requestBodyString))
+        {
+            request.Content = new StringContent(requestBodyString, MediaTypeHeaderValue.Parse("application/json"));
+        }
+
+        authenticator.SetHttpRequestHeaders(request.Headers, uri, requestBodyString);
         
         return await client.SendAsync(request).Read<T>(logger);
     }

@@ -1,6 +1,5 @@
 namespace Astor.Fireblocks.Client;
 
-
 public partial class FireblocksUris
 {
     public const string Vault = "vault";
