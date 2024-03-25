@@ -16,8 +16,19 @@ public partial class FireblocksUris
     public const string V1 = "v1";
 }
 
-public partial class FireblocksClient(HttpClient client, FireblocksAuthenticator authenticator, ILogger<FireblocksClient> logger)
+public partial class FireblocksClient
 {
+    readonly HttpClient client;
+    readonly FireblocksAuthenticator authenticator;
+    readonly ILogger<FireblocksClient> logger;
+    
+    public FireblocksClient(HttpClient client, FireblocksAuthenticator authenticator, ILogger<FireblocksClient> logger)
+    {
+        this.client = client;
+        this.authenticator = authenticator;
+        this.logger = logger;
+    }
+    
     public async Task<T> GetAsync<T>(string uri, object? query = null)
     {
         var queryUri = query == null ? uri : QueryUri.From(uri, query);
@@ -52,8 +63,15 @@ public partial class FireblocksClient(HttpClient client, FireblocksAuthenticator
     }
 }
 
-public class FireblocksAuthenticator(IOptions<FireblocksClientOptions> options)
+public class FireblocksAuthenticator
 {
+    readonly IOptions<FireblocksClientOptions> options;
+    
+    public FireblocksAuthenticator(IOptions<FireblocksClientOptions> options)
+    {
+        this.options = options;
+    }
+    
     public void SetHttpRequestHeaders(HttpRequestHeaders headers, string uri, string? requestBodyString = null)
     {
         var jwt = GetJwtToken(uri, requestBodyString);
