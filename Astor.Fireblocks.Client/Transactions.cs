@@ -8,8 +8,8 @@ public partial class FireblocksUris
 
 public partial class FireblocksClient
 {
-    public async Task<object> PostTransaction(TransactionCandidate candidate) => 
-        await PostAsync<object>(FireblocksUris.TransactionsV1, candidate);
+    public async Task<CreatedTransaction> PostTransaction(TransactionCandidate candidate) => 
+        await PostAsync<CreatedTransaction>(FireblocksUris.TransactionsV1, candidate);
 }
 
 public record TransactionCandidate(
@@ -18,6 +18,11 @@ public record TransactionCandidate(
     TransactionSource Source,
     TransactionDestination Destination,
     string Note
+);
+
+public record CreatedTransaction(
+    string Id,
+    string Status
 );
 
 public record TransactionSource(
