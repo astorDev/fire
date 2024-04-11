@@ -1,0 +1,4 @@
+@host = {{FIREBLOCKS_URL}}/v1
+
+###
+GET /vault/accounts_paged?assetId=ETH_TEST5
