@@ -1,9 +1,9 @@
 @host = {{FIREBLOCKS_URL}}/v1
-@asset = ETH_TEST5
+@asset = {{ASSET}}
 
 ###
 # @name accounts
-GET /vault/accounts_paged?assetId={{asset}}
+GET /vault/accounts_paged?assetId={{asset}}&minAmountThreshold={{THRESHOLD}}
 
 ###
 # @ref accounts
@@ -20,7 +20,7 @@ POST /transactions
 
 {
     "assetId" : "{{asset}}",
-    "amount" : 0.001,
+    "amount" : {{AMOUNT}},
     "source" : {
         "type" : "VAULT_ACCOUNT",
         "id" : "{{accounts.accounts[0].id}}"
@@ -28,7 +28,7 @@ POST /transactions
     "destination" : {
         "type" : "ONE_TIME_ADDRESS",
         "oneTimeAddress" : {
-            "address" : "0xe947E646721C0b69479baC4d243594279e9f9C44"
+            "address" : "{{EXTERNALRECEIVER}}"
         }
     }
 }

@@ -32,10 +32,16 @@ public record TransactionSource(
 
 public record TransactionDestination(
     string Type,
-    string Id
+    string? Id = null,
+    OneTimeAddress? OneTimeAddress = null
+);
+
+public record OneTimeAddress(
+    string Address
 );
 
 public static class PeerTypes
 {
     public const string VaultAccount = "VAULT_ACCOUNT";
+    public const string OneTimeAddress = "ONE_TIME_ADDRESS";
 }
