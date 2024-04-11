@@ -17,16 +17,56 @@ public partial class FireblocksUris
     public const string V1 = "v1";
 }
 
+public class Sender
+{
+    readonly ILogger<Sender> logger;
+    readonly FireblocksAuthenticator authenticator;
+    readonly HttpClient client;
+
+    public Sender(ILogger<Sender> logger, FireblocksAuthenticator authenticator, HttpClient client)
+    {
+        this.logger = logger;
+        this.authenticator = authenticator;
+        this.client = client;
+    }
+    
+    public async Task<HttpResponseMessage> SendAsync(HttpMethod method, string uri, object? requestBody = null)
+    {
+        var requestBodyString = requestBody == null ? null : JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        });
+        
+        var fullUri = Path.Combine(client.BaseAddress!.ToString(), uri);
+
+        var request = new HttpRequestMessage
+        {
+            RequestUri = new(fullUri),    
+            Method = method
+        };
+
+        if (!String.IsNullOrEmpty(requestBodyString))
+        {
+            request.Content = new StringContent(requestBodyString, MediaTypeHeaderValue.Parse("application/json"));
+        }
+
+        authenticator.SetHttpRequestHeaders(request.Headers, uri, requestBodyString);
+        
+        logger.LogInformation("Sending {method} {uri} {body}", method, uri, requestBodyString);
+        
+        return await client.SendAsync(request);
+    }
+}
+
 public partial class FireblocksClient
 {
-    readonly HttpClient client;
-    readonly FireblocksAuthenticator authenticator;
+    readonly Sender sender;
     readonly ILogger<FireblocksClient> logger;
     
-    public FireblocksClient(HttpClient client, FireblocksAuthenticator authenticator, ILogger<FireblocksClient> logger)
+    public FireblocksClient(Sender sender, ILogger<FireblocksClient> logger)
     {
-        this.client = client;
-        this.authenticator = authenticator;
+        this.sender = sender;
         this.logger = logger;
     }
     
@@ -43,28 +83,7 @@ public partial class FireblocksClient
 
     public async Task<T> SendAsync<T>(HttpMethod method, string uri, object? requestBody = null)
     {
-        var requestBodyString = requestBody == null ? null : JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        });
-
-        var fullUri = Path.Combine(client.BaseAddress!.ToString(), uri);
-
-        var request = new HttpRequestMessage
-        {
-            RequestUri = new(fullUri),    
-            Method = method
-        };
-
-        if (!String.IsNullOrEmpty(requestBodyString))
-        {
-            request.Content = new StringContent(requestBodyString, MediaTypeHeaderValue.Parse("application/json"));
-        }
-
-        authenticator.SetHttpRequestHeaders(request.Headers, uri, requestBodyString);
-        
-        return await client.SendAsync(request).Read<T>(logger);
+        return await sender.SendAsync(method, uri, requestBody).Read<T>(logger);
     }
 }
 

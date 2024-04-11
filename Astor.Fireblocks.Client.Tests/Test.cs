@@ -30,7 +30,11 @@ public class Test
         var configuration = new ConfigurationManager();
         configuration.AddFluentEnvironmentVariables();
         var services = new ServiceCollection();
-        services.AddLogging(l => l.AddSimpleConsole(c => c.SingleLine = true));
+        services.AddLogging(l =>
+        {
+            l.AddSimpleConsole(c => c.SingleLine = true);
+            l.SetMinimumLevel(LogLevel.Debug);
+        });
         services.AddFireblocks(configuration.GetSection("Fireblocks"));
         Services = services.BuildServiceProvider();
         Client = Services.GetRequiredService<FireblocksClient>();

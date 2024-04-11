@@ -12,11 +12,12 @@ public static class ServiceCollectionExtensions
             .Bind(namedConfigurationSection)
             .ValidateDataAnnotations();
 
-        services.AddHttpClient<FireblocksClient>((sp, cl) =>
+        services.AddHttpClient<Sender>((sp, cl) =>
         {
             var options = sp.GetRequiredService<IOptions<FireblocksClientOptions>>();
             cl.BaseAddress = new(options.Value.Url);
         });
+        services.AddScoped<FireblocksClient>();
 
         services.AddScoped<FireblocksAuthenticator>();
 
