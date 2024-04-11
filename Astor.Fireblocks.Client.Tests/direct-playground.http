@@ -36,3 +36,32 @@ POST /transactions
 ###
 # @ref transaction
 GET /transactions/{{transaction.id}}
+
+###
+# @name secondAccountAddresses
+GET /vault/accounts/{{accounts.accounts[1].id}}/{{asset}}/addresses
+
+###
+# @name transactionToSecond
+# @ref secondAccountAddresses
+# @ref accounts
+POST /transactions
+
+{
+    "assetId" : "{{asset}}",
+    "amount" : {{AMOUNT}},
+    "source" : {
+        "type" : "VAULT_ACCOUNT",
+        "id" : "{{accounts.accounts[0].id}}"
+    },
+    "destination" : {
+        "type" : "ONE_TIME_ADDRESS",
+        "oneTimeAddress" : {
+            "address" : "{{secondAccountAddresses[0].address}}"
+        }
+    }
+}
+
+###
+# @ref transactionToSecond
+GET /transactions/{{transactionToSecond.id}}
