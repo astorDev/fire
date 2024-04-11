@@ -8,7 +8,7 @@ function signJwt(path, bodyJson, privateKey, apiKey) {
         iat: Math.floor(Date.now() / 1000),
         exp: Math.floor(Date.now() / 1000) + 55,
         sub: apiKey,
-        bodyHash: createHash("sha256").update(JSON.stringify(bodyJson || "")).digest().toString("hex")
+        bodyHash: createHash("sha256").update(bodyJson || "").digest().toString("hex")
     }, privateKey, { algorithm: "RS256"});
 
     return token;
@@ -23,7 +23,7 @@ module.exports = {
 
             if (!request.url.startsWith(baseUrl)) return;
 
-            var bodyJson = JSON.stringify(request["body"]);
+            var bodyJson = request["body"];
             let path = request.url.replace(baseUrl, '');
             var privateKey = `-----BEGIN PRIVATE KEY-----
 ${secret}
@@ -33,6 +33,7 @@ ${secret}
 
             request.headers = Object.assign({
                 'X-API-KEY' : apiKey,
+                //'X-Body-Json' : bodyJson,
                 'Authorization' : `Bearer ${signedJwt}`
             }, request.headers);
         });
