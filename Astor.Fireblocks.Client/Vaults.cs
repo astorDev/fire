@@ -23,7 +23,8 @@ public record VaultAccount(
 );
 
 public record PaginatedVaultAccountsQuery(
-    decimal? MinAmountThreshold = null
+    string? MinAmountThreshold = null, // Workaround for problem with Nist.Queries work with decimal
+    string? AssetId = null
 );
 
 public record VaultAccountAsset(
