@@ -65,3 +65,10 @@ POST /transactions
 ###
 # @ref transactionToSecond
 GET /transactions/{{transactionToSecond.id}}
+
+###
+POST /vault/accounts
+
+{
+    "name" : "{{$guid}}"
+}

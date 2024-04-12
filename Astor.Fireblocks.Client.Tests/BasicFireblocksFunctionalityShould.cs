@@ -14,11 +14,13 @@ public class BasicFireblocksFunctionalityShould : Test
     );
 
     [TestMethod]
-    public void X()
+    public async Task CreateAccountAndAsset()
     {
-        double x = 0.01;
-        Console.WriteLine(WebUtility.UrlEncode(x.ToString(CultureInfo.InvariantCulture)));
-        Console.WriteLine(WebUtility.UrlEncode("0,01"));
+        var account = await Client.PostAccount(new($"test {Guid.NewGuid()}"));
+        var asset = await Client.PostAccountAsset(account.Id, Asset, new());
+        
+        account.Name.Should().StartWith("test ");
+        asset.EosAccountName.Should().BeNull();
     }
     
     [TestMethod]
