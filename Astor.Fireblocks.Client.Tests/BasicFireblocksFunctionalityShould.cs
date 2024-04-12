@@ -14,10 +14,13 @@ public class BasicFireblocksFunctionalityShould : Test
     );
 
     [TestMethod]
-    public async Task CreateAccount()
+    public async Task CreateAccountAndAsset()
     {
         var account = await Client.PostAccount(new($"test {Guid.NewGuid()}"));
+        var asset = await Client.PostAccountAsset(account.Id, Asset, new());
+        
         account.Name.Should().StartWith("test ");
+        asset.EosAccountName.Should().BeNull();
     }
     
     [TestMethod]
