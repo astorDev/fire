@@ -14,11 +14,10 @@ public class BasicFireblocksFunctionalityShould : Test
     );
 
     [TestMethod]
-    public void X()
+    public async Task CreateAccount()
     {
-        double x = 0.01;
-        Console.WriteLine(WebUtility.UrlEncode(x.ToString(CultureInfo.InvariantCulture)));
-        Console.WriteLine(WebUtility.UrlEncode("0,01"));
+        var account = await Client.PostAccount(new($"test {Guid.NewGuid()}"));
+        account.Name.Should().StartWith("test ");
     }
     
     [TestMethod]
