@@ -7,7 +7,12 @@ public record TransactionWebhook(
 
 public class WebhookEventTypes {
     public const string TransactionStatusUpdated = "TRANSACTION_STATUS_UPDATED";
+    public const string TransactionCreated = "TRANSACTION_CREATED";
+}
 
+public class TransactionStatus {
+    public const string Confirming = "CONFIRMING";
+    public const string Completed = "COMPLETED";
 }
 
 public record TransactionDetails(
