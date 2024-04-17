@@ -17,6 +17,8 @@ public class TransactionStatus {
 
 public record TransactionDetails(
     string Id,
+    long CreatedAt,
+    long LastUpdated,
     string AssetId,
     PeerDetails Source,
     PeerDetails Destination,
