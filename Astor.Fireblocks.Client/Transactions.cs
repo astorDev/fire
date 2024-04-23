@@ -10,6 +10,9 @@ public partial class FireblocksClient
 {
     public async Task<CreatedTransaction> PostTransaction(TransactionCandidate candidate) => 
         await PostAsync<CreatedTransaction>(FireblocksUris.TransactionsV1, candidate);
+
+    public async Task<TransactionDetails> GetTransaction(string transactionId) =>
+        await GetAsync<TransactionDetails>($"{FireblocksUris.TransactionsV1}/{transactionId}");
 }
 
 public record TransactionCandidate(

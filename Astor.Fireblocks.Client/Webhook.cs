@@ -13,6 +13,7 @@ public class WebhookEventTypes {
 public class TransactionStatus {
     public const string Confirming = "CONFIRMING";
     public const string Completed = "COMPLETED";
+    public const string Submitted = "SUBMITTED";
 }
 
 public record TransactionDetails(

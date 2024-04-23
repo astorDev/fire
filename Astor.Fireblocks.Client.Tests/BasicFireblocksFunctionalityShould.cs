@@ -18,11 +18,11 @@ public class BasicFireblocksFunctionalityShould : Test
     {
         var account = await Client.PostAccount(new($"test {Guid.NewGuid()}"));
         var asset = await Client.PostAccountAsset(account.Id, Asset, new());
-        
+
         account.Name.Should().StartWith("test ");
         asset.EosAccountName.Should().BeNull();
     }
-    
+
     [TestMethod]
     public async Task ReturnAllAccounts()
     {
@@ -67,6 +67,29 @@ public class BasicFireblocksFunctionalityShould : Test
     [TestMethod]
     public async Task PerformAssetTransferToOneTimeAddress()
     {
+        await PerformAssetTransferToOneTimeAddressInternal();
+    }
+
+
+    [TestMethod]
+    public async Task GetPerformedAssetTransferInfoUpToHash()
+    {
+        var createdTransaction = await PerformAssetTransferToOneTimeAddressInternal();
+        var txHash = "";
+        var timeoutToken = new CancellationTokenSource(TimeSpan.FromMinutes(1)).Token;
+
+        do
+        {
+            await Task.Delay(100);
+            var transaction = await Client.GetTransaction(createdTransaction.Id);
+            txHash = transaction.TxHash;
+        } while (txHash == "" && !timeoutToken.IsCancellationRequested);
+
+        txHash.Should().NotBeEmpty();
+    }
+
+    private async Task<CreatedTransaction> PerformAssetTransferToOneTimeAddressInternal()
+    {
         var page = await Client.GetAccountsPaged(AssetAccountAfterThresholdQuery);
         var richest = OrderedByBalanceDescending(page).First();
 
@@ -88,7 +111,7 @@ public class BasicFireblocksFunctionalityShould : Test
             Note: $"test transfer of {actualAmount} from richest to external"
         );
 
-        await Client.PostTransaction(transaction);
+        return await Client.PostTransaction(transaction);
     }
 
     public static (VaultAccount Account, VaultAccountAsset Asset)[] OrderedByBalanceDescending(VaultAccountsPaginated page)
