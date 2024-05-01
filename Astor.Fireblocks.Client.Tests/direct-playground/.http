@@ -1,0 +1,50 @@
+@host = {{FIREBLOCKS_URL}}/v1
+@accountId = 53
+@asset1 = ETH_TEST5
+@asset2 = USDC_ETH_TEST5_0GER
+@asset3 = ETH-AETH_SEPOLIA
+@asset4 = BASECHAIN_ETH_TEST5
+
+###
+GET /supported_assets
+
+###
+# @name paged
+GET /vault/accounts_paged?minAmountThreshold={{THRESHOLD}}
+
+###
+POST /vault/accounts/{{accountId}}/{{asset4}}
+
+###
+# @name firstAccount
+GET /vault/accounts/{{accountId}}
+
+###
+# @name firstAccountAddress
+GET /vault/accounts/{{accountId}}/{{asset1}}/addresses
+
+###
+GET /vault/accounts/{{accountId}}/{{asset2}}/addresses
+
+###
+GET /vault/accounts/{{accountId}}/{{asset3}}/addresses
+
+### Transaction of non native currency from native currency account
+# @name
+# @ref accounts
+POST /transactions
+
+{
+    "assetId" : "{{asset2}}",
+    "amount" : 0.0004,
+    "source" : {
+        "type" : "VAULT_ACCOUNT",
+        "id" : "{{accountId}}"
+    },
+    "destination" : {
+        "type" : "ONE_TIME_ADDRESS",
+        "oneTimeAddress" : {
+            "address" : "{{EXTERNALRECEIVER}}"
+        }
+    }
+}

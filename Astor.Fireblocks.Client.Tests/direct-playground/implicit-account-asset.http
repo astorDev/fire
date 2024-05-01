@@ -1,0 +1,55 @@
+@host = {{FIREBLOCKS_URL}}/v1
+@accounts = {{host}}/vault/accounts
+@asset1 = ETH_TEST5
+@asset2 = USDC_ETH_TEST5_0GER
+
+###
+# @name createdAccount
+POST {{accounts}}/
+
+{
+    "name" : "{{$guid}}"
+}
+
+###
+# @name accountAsset1
+# @ref createdAccount
+POST {{accounts}}/{{createdAccount.id}}/{{asset1}}
+
+###
+# @ref createdAccount
+GET {{accounts}}/{{createdAccount.id}}
+
+###
+GET {{accounts}}/{{createdAccount.id}}/{{asset1}}/addresses
+
+### 
+POST {{accounts}}/{{createdAccount.id}}/{{asset1}}/addresses
+
+{
+    "name" : "{{$guid}}"
+}
+
+### Sending asset2, although asset2 was never created in the account
+# @ref createdAccount
+# @name tx
+POST /transactions
+
+{
+    "assetId" : "{{asset2}}",
+    "amount" : 0.03,
+    "source" : {
+        "type" : "VAULT_ACCOUNT",
+        "id" : "{{createdAccount.id}}"
+    },
+    "destination" : {
+        "type" : "ONE_TIME_ADDRESS",
+        "oneTimeAddress" : {
+            "address" : "0xe947E646721C0b69479baC4d243594279e9f9C44"
+        }
+    }
+}
+
+###
+# @ref tx
+GET /transactions/{{tx.id}}
