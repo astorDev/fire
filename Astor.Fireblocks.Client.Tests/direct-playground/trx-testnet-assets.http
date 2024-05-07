@@ -1,0 +1,19 @@
+@host = {{FIREBLOCKS_URL}}/v1
+@accountId = 53
+@asset1 = TRX_TEST
+@asset2 = TRX_USDC_SKL5
+
+###
+GET /supported_assets
+
+###
+POST /vault/accounts/{{accountId}}/{{asset1}}
+
+###
+GET /vault/accounts/{{accountId}}/{{asset1}}/addresses
+
+###
+POST /vault/accounts/{{accountId}}/{{asset2}}
+
+###
+GET /vault/accounts/{{accountId}}/{{asset2}}/addresses
