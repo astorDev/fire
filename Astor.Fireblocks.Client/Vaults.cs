@@ -22,6 +22,9 @@ public partial class FireblocksClient
 
     public async Task<CreatedVaultAccountAsset> PostAccountAsset(string accountId, string assetId, VaultAccountAssetCandidate candidate) => 
         await PostAsync<CreatedVaultAccountAsset>(FireblocksUris.VaultAccountAssetV1(accountId, assetId), candidate);
+
+    public async Task<VaultAccountAsset> GetAccountAsset(string accountId, string assetId) =>
+        await GetAsync<VaultAccountAsset>(FireblocksUris.VaultAccountAssetV1(accountId, assetId));
 }
 
 public record VaultAccountsPaginated(VaultAccount[] Accounts);
