@@ -14,6 +14,13 @@ public class BasicFireblocksFunctionalityShould : Test
     );
 
     [TestMethod]
+    public async Task GetSupportedAssets()
+    {
+        var supportedAssets = await Client.GetSupportedAssets();
+        supportedAssets.Should().NotBeNull();
+    }
+
+    [TestMethod]
     public async Task CreateAccountAndAsset()
     {
         var account = await Client.PostAccount(new($"test {Guid.NewGuid()}"));
