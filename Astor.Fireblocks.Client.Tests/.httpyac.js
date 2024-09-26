@@ -18,6 +18,7 @@ module.exports = {
     configureHooks: (api) => {
         api.hooks.onRequest.addHook('setupAuth', function (request, ctx) {
             var secret = ctx.variables["FIREBLOCKS_API_SECRET"];
+            var privateKey = ctx.variables["FIREBLOCKS_API_FULL_SECRET"];
             var apiKey = ctx.variables["FIREBLOCKS_API_KEY"];
             var baseUrl = ctx.variables["FIREBLOCKS_URL"];
 
@@ -25,14 +26,17 @@ module.exports = {
 
             var bodyJson = request["body"];
             let path = request.url.replace(baseUrl, '');
-            var privateKey = `-----BEGIN PRIVATE KEY-----
+            if (!privateKey) {
+                privateKey = `-----BEGIN PRIVATE KEY-----
 ${secret}
------END PRIVATE KEY-----`
+    -----END PRIVATE KEY-----`
+            }
 
             var signedJwt = signJwt(path, bodyJson, privateKey, apiKey)
 
             request.headers = Object.assign({
                 'X-API-KEY' : apiKey,
+                //'SECRET' : encodeURIComponent(secret),
                 //'X-Body-Json' : bodyJson,
                 'Authorization' : `Bearer ${signedJwt}`
             }, request.headers);
