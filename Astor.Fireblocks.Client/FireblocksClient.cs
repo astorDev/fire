@@ -117,7 +117,7 @@ public class FireblocksAuthenticator
 
         var payload = new JwtPayload
         {
-            { "uri", $"/{uri}" },
+            { "uri", uri.StartsWith("/") ? uri : $"/{uri}" },
             { "nonce", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() },
             { "iat", DateTimeOffset.UtcNow.ToUnixTimeSeconds() },
             { "exp", DateTimeOffset.UtcNow.AddSeconds(25).ToUnixTimeSeconds() },
