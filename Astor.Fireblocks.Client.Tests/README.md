@@ -1,6 +1,14 @@
 ## Installation
 
-In the root of the `Astor.Fireblocks.Client.Tests` create `.env` file and setup configuration variables:
+> Assumes you are in `Astor.Fireblocks.Client.Tests` for commands and file creation
+
+Install helper npm packages:
+
+```sh
+npm install .
+```
+
+Create `.env` file and setup configuration variables:
 
 ```dotenv
 FIREBLOCKS_URL="cool url"
