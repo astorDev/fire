@@ -8,9 +8,14 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddFireblocks(this IServiceCollection services, IConfiguration namedConfigurationSection)
     {
-        services.AddOptions<FireblocksClientOptions>()
-            .Bind(namedConfigurationSection)
-            .ValidateDataAnnotations();
+        return services.AddFireblocks(o => o.Bind(namedConfigurationSection));
+    }
+
+    public static IServiceCollection AddFireblocks(this IServiceCollection services, Action<OptionsBuilder<FireblocksClientOptions>> optionsConfiguration)
+    {
+        var optionsBuilder = services.AddOptions<FireblocksClientOptions>();
+        optionsConfiguration(optionsBuilder);
+        optionsBuilder.ValidateDataAnnotations();
 
         services.AddHttpClient<Sender>((sp, cl) =>
         {
@@ -18,7 +23,6 @@ public static class ServiceCollectionExtensions
             cl.BaseAddress = new(options.Value.Url);
         });
         services.AddScoped<FireblocksClient>();
-
         services.AddScoped<FireblocksAuthenticator>();
 
         return services;
