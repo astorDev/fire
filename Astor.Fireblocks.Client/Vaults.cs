@@ -47,7 +47,13 @@ public record VaultAccountCandidate(
 
 public record PaginatedVaultAccountsQuery(
     string? MinAmountThreshold = null, // Workaround for problem with Nist.Queries work with decimal
-    string? AssetId = null
+    string? AssetId = null,
+    string? After = null,
+    int? Limit = null,
+    string? Before = null,
+    string? OrderBy = null,
+    string? NameSuffix = null,
+    string? NamePrefix = null
 );
 
 public record VaultAccountAssetCandidate(
