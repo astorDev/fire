@@ -38,10 +38,27 @@ public record TransactionDetails(
 
 public record DestinationDetails(
     decimal Amount,
-    PeerDetails Destination
-    
-
+    PeerDetails Destination,
+    decimal AmountUsd,
+    string DestinationAddress,
+    string DestinationAddressDescription,
+    AmlScreeningResult AmlScreeningResult,
+    string customerRefId
 );
+
+public record AmlScreeningResult(
+    string Provider,
+    dynamic Payload,
+    string ScreeningStatus,
+    string Verdict
+);
+
+public class AmlScreeningVerdict
+{
+    public const string Accept = "ACCEPT";
+    public const string Reject = "REJECT";
+    public const string Alert = "ALERT";
+}
 
 public record PeerDetails(
     string Id,
