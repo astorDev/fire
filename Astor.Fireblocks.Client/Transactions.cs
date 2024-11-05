@@ -1,3 +1,5 @@
+using Nist.Queries;
+
 namespace Astor.Fireblocks.Client;
 
 public partial class FireblocksUris
@@ -13,6 +15,9 @@ public partial class FireblocksClient
 
     public async Task<TransactionDetails> GetTransaction(string transactionId) =>
         await GetAsync<TransactionDetails>($"{FireblocksUris.TransactionsV1}/{transactionId}");
+    
+    public async Task<TransactionDetails[]> GetTransactions(TransactionsQuery query) => 
+        await this.GetAsync<TransactionDetails[]>(FireblocksUris.TransactionsV1, query);
 }
 
 public record TransactionCandidate(
@@ -42,6 +47,16 @@ public record TransactionDestination(
 public record OneTimeAddress(
     string Address
 );
+
+public record TransactionsQuery(
+    long Before,
+    int Limit
+);
+
+public class FireblocksTime
+{
+    public static long NowPlus(TimeSpan offset) => DateTimeOffset.UtcNow.Add(offset).ToUnixTimeMilliseconds();
+}
 
 public static class PeerTypes
 {
