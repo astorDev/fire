@@ -30,7 +30,17 @@ public record TransactionDetails(
     string TxHash,
     string SubStatus,
     string FeeCurrency,
-    BlockInfo BlockInfo
+    BlockInfo BlockInfo,
+    int NumOfConfirmations,
+    string DestinationTag,
+    DestinationDetails[] Destinations
+);
+
+public record DestinationDetails(
+    decimal Amount,
+    PeerDetails Destination
+    
+
 );
 
 public record PeerDetails(
