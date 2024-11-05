@@ -32,8 +32,10 @@ public record VaultAccountsPaginated(VaultAccount[] Accounts);
 public record VaultAccount(
     string Id,
     string Name,
+    VaultAccountAsset[] Assets,
     bool HiddenOnUI,
-    VaultAccountAsset[] Assets
+    string CustomerRefId,
+    bool AutoFuel
 );
 
 public record VaultAccountCandidate(
