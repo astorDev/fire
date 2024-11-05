@@ -27,7 +27,13 @@ public partial class FireblocksClient
         await GetAsync<VaultAccountAsset>(FireblocksUris.VaultAccountAssetV1(accountId, assetId));
 }
 
-public record VaultAccountsPaginated(VaultAccount[] Accounts);
+public record VaultAccountsPaginated(
+    VaultAccount[] Accounts,
+    Paging Paging,
+    string PreviousUrl,
+    string NextUrl);
+
+public record Paging(string Before, string After);
 
 public record VaultAccount(
     string Id,
