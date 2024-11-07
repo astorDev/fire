@@ -49,8 +49,20 @@ public record OneTimeAddress(
 );
 
 public record TransactionsQuery(
-    long Before,
-    int Limit
+    long? Before = null,
+    long? After = null,
+    int? Limit = null,
+    string? Status = null,
+    string? OrderBy = null,
+    string? Sort = null,
+    string? SourceType = null,
+    string? SourceId = null,
+    string? DestType = null,
+    string? DestId = null,
+    string? Assets = null,
+    string? TxHash = null,
+    string? SourceWalletId = null,
+    string? DestWalletId = null
 );
 
 public class FireblocksTime
