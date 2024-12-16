@@ -14,6 +14,7 @@ public class TransactionStatus {
     public const string Confirming = "CONFIRMING";
     public const string Completed = "COMPLETED";
     public const string Submitted = "SUBMITTED";
+    public const string Rejected = "REJECTED";
 }
 
 public record TransactionDetails(
