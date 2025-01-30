@@ -7,3 +7,9 @@ FIREBLOCKS_URL="cool url"
 FIREBLOCKS_API_KEY="cool key"
 FIREBLOCKS_API_SECRET="cool secret"
 ```
+
+To run httpyac files install required modules:
+
+```sh
+npm install
+```
