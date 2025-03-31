@@ -35,7 +35,9 @@ public class Test
             l.AddSimpleConsole(c => c.SingleLine = true);
             l.SetMinimumLevel(LogLevel.Debug);
         });
+
         services.AddFireblocks(configuration.GetSection("Fireblocks"));
+            
         Services = services.BuildServiceProvider();
         Client = Services.GetRequiredService<FireblocksClient>();
         

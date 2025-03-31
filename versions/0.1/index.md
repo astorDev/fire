@@ -1,0 +1,2 @@
+- [x] Fluent Registration
+- [x] GET gas_station
