@@ -4,7 +4,6 @@ using Fluenv;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Astor.Fireblocks.Client.Tests;
 
@@ -28,7 +27,6 @@ public class Test
     public Test()
     {
         DotEnv.Load();
-        var x = DotEnv.Read();
         var configuration = new ConfigurationManager();
         configuration.AddFluentEnvironmentVariables();
         var services = new ServiceCollection();
@@ -38,7 +36,7 @@ public class Test
             l.SetMinimumLevel(LogLevel.Debug);
         });
 
-        services.AddFireblocks(configuration.GetSection("Fireblocks"), RsaKeyResolution);
+        services.AddFireblocks(configuration.GetSection("Fireblocks"));
             
         Services = services.BuildServiceProvider();
         Client = Services.GetRequiredService<FireblocksClient>();
@@ -47,10 +45,5 @@ public class Test
         _amount = configuration["Amount"];
         _threshold = configuration["Threshold"];
         _externalReceiver = configuration["ExternalReceiver"];
-    }
-
-    public virtual RsaSecurityKey RsaKeyResolution(string configValue)
-    {
-        return Registration.DefaultSecurityKeyResolution(configValue);
     }
 }
