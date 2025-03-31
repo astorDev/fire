@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Nist.Queries;
 using Nist.Responses;
@@ -17,19 +16,8 @@ public partial class FireblocksUris
     public const string V1 = "v1";
 }
 
-public class Sender
+public class Sender(ILogger<Sender> logger, FireblocksAuthenticator authenticator, HttpClient client)
 {
-    readonly ILogger<Sender> logger;
-    readonly FireblocksAuthenticator authenticator;
-    readonly HttpClient client;
-
-    public Sender(ILogger<Sender> logger, FireblocksAuthenticator authenticator, HttpClient client)
-    {
-        this.logger = logger;
-        this.authenticator = authenticator;
-        this.client = client;
-    }
-    
     public async Task<HttpResponseMessage> SendAsync(HttpMethod method, string uri, object? requestBody = null)
     {
         var requestBodyString = requestBody == null ? null : JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
@@ -59,17 +47,8 @@ public class Sender
     }
 }
 
-public partial class FireblocksClient
+public partial class FireblocksClient(Sender sender, ILogger<FireblocksClient> logger)
 {
-    readonly Sender sender;
-    readonly ILogger<FireblocksClient> logger;
-    
-    public FireblocksClient(Sender sender, ILogger<FireblocksClient> logger)
-    {
-        this.sender = sender;
-        this.logger = logger;
-    }
-    
     public async Task<T> GetAsync<T>(string uri, object? query = null)
     {
         var queryUri = query == null ? uri : QueryUri.From(uri, query);
@@ -87,21 +66,14 @@ public partial class FireblocksClient
     }
 }
 
-public class FireblocksAuthenticator
+public class FireblocksAuthenticator(string apiKey, RsaSecurityKey privateKey)
 {
-    readonly IOptions<FireblocksClientOptions> options;
-    
-    public FireblocksAuthenticator(IOptions<FireblocksClientOptions> options)
-    {
-        this.options = options;
-    }
-    
     public void SetHttpRequestHeaders(HttpRequestHeaders headers, string uri, string? requestBodyString = null)
     {
         var jwt = GetJwtToken(uri, requestBodyString);
         var jwtString = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-        headers.Add("X-API-Key", options.Value.ApiKey);
+        headers.Add("X-API-Key", apiKey);
 		headers.Authorization = new("Bearer", jwtString);
     }
 
@@ -112,19 +84,20 @@ public class FireblocksAuthenticator
         var hash = sha256.ComputeHash(bytes);
         var bodyHash = BitConverter.ToString(hash).Replace("-", "").ToLower();
         
-        var rsa = RSA.Create();
-        rsa.ImportPkcs8PrivateKey(Convert.FromBase64String(options.Value.ApiSecret), out _);
-
         var payload = new JwtPayload
         {
             { "uri", uri.StartsWith("/") ? uri : $"/{uri}" },
             { "nonce", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() },
             { "iat", DateTimeOffset.UtcNow.ToUnixTimeSeconds() },
             { "exp", DateTimeOffset.UtcNow.AddSeconds(25).ToUnixTimeSeconds() },
-            { "sub", options.Value.ApiKey },
+            { "sub", apiKey },
             { "bodyHash", bodyHash }
         };
-        
-        return new(new(new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256)), payload);
+
+        var header = new JwtHeader(new SigningCredentials(
+            privateKey,
+            SecurityAlgorithms.RsaSha256));
+
+        return new(header, payload);
     }
 }
