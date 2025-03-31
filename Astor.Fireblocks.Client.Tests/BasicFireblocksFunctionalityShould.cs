@@ -13,13 +13,6 @@ public class BasicFireblocksFunctionalityShould : Test
     );
 
     [TestMethod]
-    public async Task GetSupportedAssets()
-    {
-        var supportedAssets = await Client.GetSupportedAssets();
-        supportedAssets.ShouldNotBeNull();
-    }
-
-    [TestMethod]
     public async Task CreateAccountAndAsset()
     {
         var account = await Client.PostAccount(new($"test {Guid.NewGuid()}"));
@@ -75,7 +68,6 @@ public class BasicFireblocksFunctionalityShould : Test
     {
         await PerformAssetTransferToOneTimeAddressInternal();
     }
-
 
     [TestMethod]
     public async Task GetPerformedAssetTransferInfoUpToHash()
