@@ -81,7 +81,8 @@ public static class Registration
     {
         services.AddHttpClient<Sender>((sp, cl) =>
         {
-            var uri = baseUriResolution(sp);
+            using var scope = sp.CreateScope();
+            var uri = baseUriResolution(scope.ServiceProvider);
             cl.BaseAddress = uri;
         });
         services.AddScoped<FireblocksClient>();
