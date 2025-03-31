@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Astor.Fireblocks.Client.Tests;
 
@@ -9,7 +9,7 @@ public class VaultShould : Test
     public async Task ReturnVaultAccountAsset()
     {
         var accountAsset = await Client.GetAccountAsset("61", "ETH_TEST5");
-        accountAsset.Available.Should().NotBe(0);
-        accountAsset.Should().NotBeNull();
+        accountAsset.Available.ShouldNotBe(0);
+        accountAsset.ShouldNotBeNull();
     }
 }

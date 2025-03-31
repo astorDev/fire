@@ -1,7 +1,6 @@
 using System.Globalization;
-using System.Net;
 using System.RandomExtension;
-using FluentAssertions;
+using Shouldly;
 
 namespace Astor.Fireblocks.Client.Tests;
 
@@ -17,7 +16,7 @@ public class BasicFireblocksFunctionalityShould : Test
     public async Task GetSupportedAssets()
     {
         var supportedAssets = await Client.GetSupportedAssets();
-        supportedAssets.Should().NotBeNull();
+        supportedAssets.ShouldNotBeNull();
     }
 
     [TestMethod]
@@ -26,15 +25,15 @@ public class BasicFireblocksFunctionalityShould : Test
         var account = await Client.PostAccount(new($"test {Guid.NewGuid()}"));
         var asset = await Client.PostAccountAsset(account.Id, Asset, new());
 
-        account.Name.Should().StartWith("test ");
-        asset.EosAccountName.Should().BeNull();
+        account.Name.ShouldStartWith("test ");
+        asset.EosAccountName.ShouldBeNull();
     }
 
     [TestMethod]
     public async Task ReturnAllAccounts()
     {
         var page = await Client.GetAccountsPaged();
-        page.Accounts.Length.Should().NotBe(0);
+        page.Accounts.Length.ShouldNotBe(0);
     }
 
     [TestMethod]
@@ -42,7 +41,7 @@ public class BasicFireblocksFunctionalityShould : Test
     {
         var page = await Client.GetAccountsPaged(AssetAccountAfterThresholdQuery);
         var onlyValidAssets = page.Accounts.All(a => a.Assets.All(a => a.Balance >= Threshold && a.Id == Asset));
-        onlyValidAssets.Should().BeTrue();
+        onlyValidAssets.ShouldBeTrue();
     }
 
     [TestMethod]
@@ -92,7 +91,7 @@ public class BasicFireblocksFunctionalityShould : Test
             txHash = transaction.TxHash;
         } while (txHash == "" && !timeoutToken.IsCancellationRequested);
 
-        txHash.Should().NotBeEmpty();
+        txHash.ShouldNotBeEmpty();
     }
 
     private async Task<CreatedTransaction> PerformAssetTransferToOneTimeAddressInternal()
