@@ -20,4 +20,12 @@ public class GetOperations : Test
         Console.WriteLine(JsonSerializer.Serialize(gasStation));
         gasStation.ShouldNotBeNull();
     }
+
+    [TestMethod]
+    public async Task GetHotWallet()
+    {
+        await Client.GetAccountsPaged(new (
+            NamePrefix: "hot-wallet"
+        ));
+    }
 }
