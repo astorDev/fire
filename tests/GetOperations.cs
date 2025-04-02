@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Astor.Fireblocks.Client.Tests;
+using Microsoft.IdentityModel.Tokens;
 using Shouldly;
 
 namespace Fire;
@@ -29,5 +30,16 @@ public class GetOperations : Test
         ));
         
         Console.WriteLine(JsonSerializer.Serialize(accounts));
+    }
+
+    [TestMethod]
+    public async Task GetAccount()
+    {
+        var accounts = await Client.GetAccountsPaged(new (
+            NamePrefix: "hot-wallet"
+        ));
+
+        var account = await Client.GetAccount(accounts.Accounts.First().Id);
+        Console.WriteLine(JsonSerializer.Serialize(account));
     }
 }

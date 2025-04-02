@@ -9,6 +9,7 @@ public partial class FireblocksUris
     public static readonly string VaultAccountsPagedV1 = $"{V1}/{VaultAccountsPaged}";
     public static readonly string VaultAccountsV1 = $"{V1}/{Vault}/{Accounts}";
 
+    public static string VaultAccountV1(string accountId) => $"{VaultAccountsV1}/{accountId}";
     public static string VaultAccountAssetV1(string accountId, string assetId) => $"{VaultAccountsV1}/{accountId}/{assetId}";
 }
 
@@ -25,6 +26,9 @@ public partial class FireblocksClient
 
     public async Task<VaultAccountAsset> GetAccountAsset(string accountId, string assetId) =>
         await GetAsync<VaultAccountAsset>(FireblocksUris.VaultAccountAssetV1(accountId, assetId));
+
+    public async Task<VaultAccount> GetAccount(string accountId) =>
+        await GetAsync<VaultAccount>(FireblocksUris.VaultAccountV1(accountId));
 }
 
 public record VaultAccountsPaginated(
