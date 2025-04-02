@@ -24,8 +24,10 @@ public class GetOperations : Test
     [TestMethod]
     public async Task GetHotWallet()
     {
-        await Client.GetAccountsPaged(new (
+        var accounts = await Client.GetAccountsPaged(new (
             NamePrefix: "hot-wallet"
         ));
+        
+        Console.WriteLine(JsonSerializer.Serialize(accounts));
     }
 }
