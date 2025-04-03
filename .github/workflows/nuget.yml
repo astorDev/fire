@@ -11,5 +11,5 @@ jobs:
     steps:
       - uses: astorDev/versy/calver/nuget@main
         with:
-          project: lib/Fire.Client
+          project: lib/Fire.Blocks
           nuget-api-key: ${{ secrets.NUGET_API_KEY }}
