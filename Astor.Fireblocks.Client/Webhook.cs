@@ -45,7 +45,7 @@ public record TransactionDetails(
     string ExchangeTxId,
     string FeeCurrency,
     string Operation,
-    string NumOfConfirmations,
+    int NumOfConfirmations,
     AmountInfo AmountInfo,
     FeeInfo FeeInfo,
     // signedMessages - array of unknown type
