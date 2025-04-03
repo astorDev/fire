@@ -1,6 +1,4 @@
-using Nist.Queries;
-
-namespace Astor.Fireblocks.Client;
+namespace Astor.Fireblocks;
 
 public partial class FireblocksUris
 {
@@ -42,6 +40,144 @@ public record TransactionDestination(
     string Type,
     string? Id = null,
     OneTimeAddress? OneTimeAddress = null
+);
+
+public class TransactionStatus {
+    public const string Submitted = "SUBMITTED";
+    public const string PendingAmlScreening = "PENDING_AML_SCREENING";
+    public const string PendingEnrichment = "PENDING_ENRICHMENT";
+    public const string PendingAuthorization = "PENDING_AUTHORIZATION";
+    public const string Queued = "QUEUED";
+    public const string PendingSignature = "PENDING_SIGNATURE";
+    public const string Pending3rdPartyManualApproval = "PENDING_3RD_PARTY_MANUAL_APPROVAL";
+    public const string Pending3rdParty = "PENDING_3RD_PARTY";
+    public const string Broadcasting = "BROADCASTING";
+    public const string Confirming = "CONFIRMING";
+    public const string Completed = "COMPLETED";
+
+    /// <summary>
+    /// The Cancelling status indicates a transaction was canceled or rejected by a Fireblocks user, 
+    // such as the transaction’s initiator, approver, or designated signer.
+    //
+    // Typically, a transaction should remain in this status for no longer than 30 seconds, 
+    // but it depends on the current load on the Fireblocks system.
+    /// </summary>
+    public const string Cancelling = "CANCELLING";
+
+    /// <summary>
+    /// The Cancelled status indicates a transaction was canceled or rejected by a Fireblocks user, 
+    // such as the transaction’s initiator, approver, or designated signer, 
+    // or by the third-party service that was the source of the transaction.
+    //
+    // Cancelled is a final transaction status and marks the transaction as unsuccessful. 
+    // After a transaction is marked as canceled, 
+    // all associated assets are available for new transactions.
+    /// </summary>
+    public const string Cancelled = "CANCELLED";
+
+    /// <summary>
+    /// The Blocked by policy status indicates an outgoing transaction was blocked 
+    // from being completed due to a TAP rule.
+    /// 
+    // Appears in the Fireblocks Console as: Blocked by policy
+    // Blocked by policy is a final transaction status and marks the transaction as unsuccessful. 
+    // After a transaction is marked as blocked, 
+    // all associated assets are available for new transactions.
+    /// </summary>
+    public const string BlockedByPolicy = "BLOCKED_BY_POLICY";
+
+    /// <summary>
+    /// Appears in the Fireblocks Console as: Rejected by AML, Manually frozen
+    /// </summary>
+    public const string Rejected = "REJECTED";
+    public const string Failed = "FAILED";
+
+}
+
+public record TransactionDetails(
+    string Id,
+    string AssetId,
+    PeerDetails Source,
+    PeerDetails Destination,
+    decimal RequestedAmount,
+    decimal Amount,
+    decimal NetAmount,
+    decimal AmountUSD,
+    decimal Fee,
+    decimal NetworkFee,
+    long CreatedAt,
+    long LastUpdated,
+    string Status,
+    string TxHash,
+    string SubStatus,
+    string SourceAddress,
+    string DestinationAddress,
+    string DestinationAddressDescription,
+    string DestinationTag,
+    string[] SignedBy,
+    string CreatedBy,
+    string RejectedBy,
+    string AddressType,
+    string Note,
+    string ExchangeTxId,
+    string FeeCurrency,
+    string Operation,
+    int NumOfConfirmations,
+    AmountInfo AmountInfo,
+    FeeInfo FeeInfo,
+    // signedMessages - array of unknown type
+    DestinationDetails[] Destinations,
+    BlockInfo BlockInfo,
+    int Index,
+    string AssetType
+);
+
+public record AmountInfo(
+    decimal Amount,
+    decimal RequestedAmount,
+    decimal NetAmount,
+    decimal AmountUsd
+);
+
+public record FeeInfo(
+    decimal NetworkFee,
+    decimal GasPrice
+);
+
+public record DestinationDetails(
+    decimal Amount,
+    PeerDetails Destination,
+    decimal AmountUsd,
+    string DestinationAddress,
+    string DestinationAddressDescription,
+    AmlScreeningResult AmlScreeningResult,
+    string customerRefId
+);
+
+public record AmlScreeningResult(
+    string Provider,
+    dynamic Payload,
+    string ScreeningStatus,
+    string Verdict
+);
+
+public class AmlScreeningVerdict
+{
+    public const string Accept = "ACCEPT";
+    public const string Reject = "REJECT";
+    public const string Alert = "ALERT";
+}
+
+public record PeerDetails(
+    string Id,
+    string Type,
+    string Name,
+    string SubType
+);
+
+public record BlockInfo(
+    string BlockHeight,
+    string BlockHash
 );
 
 public record OneTimeAddress(

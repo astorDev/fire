@@ -1,4 +1,4 @@
-namespace Astor.Fireblocks.Client;
+namespace Astor.Fireblocks;
 
 public partial class FireblocksUris
 {
