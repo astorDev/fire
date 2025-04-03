@@ -1,0 +1,4 @@
+@host = https://api.fireblocks.io/v1
+
+###
+GET /transactions/665b70eb-9370-46a2-851f-8ca5f8649ff3

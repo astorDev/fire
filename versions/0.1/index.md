@@ -1,5 +1,6 @@
 - [x] Fluent Registration
 - [x] GET gas_station
-- [ ] GET 
+- [x] GET account
+- [x] Full TransactionDetails model
 - [ ] Restruct for shorter folder names
     - [ ] rename folder to tests

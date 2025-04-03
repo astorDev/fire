@@ -19,22 +19,52 @@ public class TransactionStatus {
 
 public record TransactionDetails(
     string Id,
-    long CreatedAt,
-    long LastUpdated,
     string AssetId,
     PeerDetails Source,
     PeerDetails Destination,
+    decimal RequestedAmount,
     decimal Amount,
-    string SourceAddress,
-    string DestinationAddress,
+    decimal NetAmount,
+    decimal AmountUSD,
+    decimal Fee,
+    decimal NetworkFee,
+    long CreatedAt,
+    long LastUpdated,
     string Status,
     string TxHash,
     string SubStatus,
-    string FeeCurrency,
-    BlockInfo BlockInfo,
-    int NumOfConfirmations,
+    string SourceAddress,
+    string DestinationAddress,
+    string DestinationAddressDescription,
     string DestinationTag,
-    DestinationDetails[] Destinations
+    string[] SignedBy,
+    string CreatedBy,
+    string RejectedBy,
+    string AddressType,
+    string Note,
+    string ExchangeTxId,
+    string FeeCurrency,
+    string Operation,
+    string NumOfConfirmations,
+    AmountInfo AmountInfo,
+    FeeInfo FeeInfo,
+    // signedMessages - array of unknown type
+    DestinationDetails[] Destinations,
+    BlockInfo BlockInfo,
+    int Index,
+    string AssetType
+);
+
+public record AmountInfo(
+    decimal Amount,
+    decimal RequestedAmount,
+    decimal NetAmount,
+    decimal AmountUsd
+);
+
+public record FeeInfo(
+    decimal NetworkFee,
+    decimal GasPrice
 );
 
 public record DestinationDetails(
