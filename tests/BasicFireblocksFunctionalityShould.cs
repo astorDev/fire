@@ -2,7 +2,7 @@ using System.Globalization;
 using System.RandomExtension;
 using Shouldly;
 
-namespace Astor.Fireblocks.Client.Tests;
+namespace Fire.Blocks;
 
 [TestClass]
 public class BasicFireblocksFunctionalityShould : Test

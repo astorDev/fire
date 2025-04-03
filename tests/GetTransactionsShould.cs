@@ -1,4 +1,4 @@
-namespace Astor.Fireblocks.Client.Tests;
+namespace Fire.Blocks;
 
 [TestClass]
 public class GetTransactionsShould : Test

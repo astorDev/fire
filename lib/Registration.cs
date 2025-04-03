@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Astor.Fireblocks.Client;
+namespace Fire.Blocks;
 
 public record FireblocksClientOptions
 {

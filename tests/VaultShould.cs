@@ -1,6 +1,4 @@
-using Shouldly;
-
-namespace Astor.Fireblocks.Client.Tests;
+namespace Fire.Blocks;
 
 [TestClass]
 public class VaultShould : Test 

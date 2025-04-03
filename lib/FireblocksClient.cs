@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Nist.Queries;
 using Nist.Responses;
 
-namespace Astor.Fireblocks;
+namespace Fire.Blocks;
 
 public partial class FireblocksUris
 {

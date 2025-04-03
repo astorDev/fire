@@ -1,4 +1,4 @@
-namespace Astor.Fireblocks;
+namespace Fire.Blocks;
 
 public record TransactionWebhook(
     string Type,

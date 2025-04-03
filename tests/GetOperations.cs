@@ -1,9 +1,7 @@
 using System.Text.Json;
-using Astor.Fireblocks.Client.Tests;
-using Microsoft.IdentityModel.Tokens;
 using Shouldly;
 
-namespace Fire;
+namespace Fire.Blocks;
 
 [TestClass]
 public class GetOperations : Test

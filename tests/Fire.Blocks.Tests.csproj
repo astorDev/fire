@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Astor.Fireblocks.Client\Astor.Fireblocks.Client.csproj" />
+    <ProjectReference Include="..\Fire.Blocks\Fire.Blocks.csproj" />
   </ItemGroup>
 
   <ItemGroup>

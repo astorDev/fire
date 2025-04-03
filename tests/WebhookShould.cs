@@ -1,7 +1,6 @@
 using System.Text.Json;
-using Astor.Fireblocks;
 
-namespace Fire;
+namespace Fire.Blocks;
 
 [TestClass]
 public class WebhookShould

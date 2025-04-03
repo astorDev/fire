@@ -1,3 +1,5 @@
+global using Fire.Blocks;
+global using Shouldly;
 using System.Globalization;
 using dotenv.net;
 using Fluenv;
@@ -5,7 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Astor.Fireblocks.Client.Tests;
+
+namespace Fire;
 
 public class Test 
 {

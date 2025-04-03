@@ -2,7 +2,8 @@ on:
   push:
     paths:
       - '.github/workflows/nuget.yml'
-      - 'Astor.Fireblocks.Client/**'
+      - 'lib/**'
+  workflow_dispatch:
     
 jobs:
   publish-nuget:
@@ -10,5 +11,5 @@ jobs:
     steps:
       - uses: astorDev/versy/calver/nuget@main
         with:
-          project: Astor.Fireblocks.Client/Astor.Fireblocks.Client
+          project: lib/Fire.Client
           nuget-api-key: ${{ secrets.NUGET_API_KEY }}
