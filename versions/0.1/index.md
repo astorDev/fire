@@ -2,5 +2,4 @@
 - [x] GET gas_station
 - [x] GET account
 - [x] Full TransactionDetails model
-- [ ] Restruct for shorter folder names
-    - [ ] rename folder to tests
+- [x] Restruct for shorter folder names
