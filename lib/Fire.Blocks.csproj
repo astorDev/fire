@@ -17,6 +17,7 @@
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.4.1" />
     <PackageReference Include="Nist.Queries" Version="2.3.1" />
     <PackageReference Include="Nist.Responses" Version="2024.111.124.28" />
+    <PackageReference Include="OneOf" Version="3.0.271" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.4.1" />
     <PackageReference Include="System.Text.Json" Version="9.0.3" />
   </ItemGroup>

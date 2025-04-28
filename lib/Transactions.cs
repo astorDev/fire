@@ -23,7 +23,8 @@ public record TransactionCandidate(
     decimal Amount,
     TransactionSource Source,
     TransactionDestination Destination,
-    string Note
+    string Note,
+    string? ExternalTxId = null
 );
 
 public record CreatedTransaction(
@@ -210,4 +211,8 @@ public static class PeerTypes
 {
     public const string VaultAccount = "VAULT_ACCOUNT";
     public const string OneTimeAddress = "ONE_TIME_ADDRESS";
+}
+
+public partial class ErrorCodes {
+    public const int ExternalTxIdDuplicate = 1438;
 }
