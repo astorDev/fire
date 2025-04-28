@@ -130,7 +130,8 @@ public record TransactionDetails(
     DestinationDetails[] Destinations,
     BlockInfo BlockInfo,
     int Index,
-    string AssetType
+    string AssetType,
+    string? ExternalTxId
 );
 
 public record AmountInfo(
