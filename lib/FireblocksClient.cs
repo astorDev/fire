@@ -62,7 +62,14 @@ public partial class FireblocksClient(Sender sender, ILogger<FireblocksClient> l
 
     public async Task<T> SendAsync<T>(HttpMethod method, string uri, object? requestBody = null)
     {
-        return await sender.SendAsync(method, uri, requestBody).Read<T>(logger, JsonSerializerOptions.Web);
+        try {
+            return await sender.SendAsync(method, uri, requestBody).Read<T>(logger, JsonSerializerOptions.Web);
+        }
+        catch (UnsuccessfulResponseException ure) {
+            var fbEx = FireblocksErrorOccurredException.From(ure);
+            if (fbEx is not null) throw fbEx;
+            else throw;
+        }
     }
 }
 

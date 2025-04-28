@@ -1,0 +1,28 @@
+@host = https://api.fireblocks.io/v1
+
+###
+# @name created
+POST /transactions
+
+{
+    "assetId" : "ETH_TEST5",
+    "amount" : 0.003,
+    "source" : {
+        "type" : "VAULT_ACCOUNT",
+        "id" : "{{ HOT_WALLET_ID }}"
+    },
+    "destination" : {
+        "type" : "ONE_TIME_ADDRESS",
+        "oneTimeAddress" : {
+            "address" : "0x6a39933f2968490686Dfa8f70a2398F620df054D"
+        }
+    },
+    "externalTxId" : "idempotency-666"
+}
+
+###
+# @ref created
+GET /transactions/{{ created.id }}
+
+###
+GET /transactions?destWalletId=0x6a39933f2968490686Dfa8f70a2398F620df054D
