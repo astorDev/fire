@@ -1,0 +1,16 @@
+###
+# @name account
+POST /vault/accounts
+
+{
+    "name" : "{{ $guid }}",
+    "autoFuel" : true 
+}
+
+###
+# @ref account
+GET /vault/accounts/{{ account.id }}/USDC_BASECHAIN_ETH_TEST5_8SH8/addresses
+
+###
+# @ref account
+POST /vault/accounts/{{ account.id }}/USDC_BASECHAIN_ETH_TEST5_8SH8

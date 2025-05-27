@@ -15,6 +15,11 @@ function signJwt(path, bodyJson, privateKey, apiKey) {
 }
 
 module.exports = {
+    environments: {
+        $shared: {
+            host : 'https://api.fireblocks.io/v1'
+        }
+    },
     configureHooks: (api) => {
         api.hooks.onRequest.addHook('setupAuth', function (request, ctx) {
             var secret = ctx.variables["FIREBLOCKS_API_SECRET"];
