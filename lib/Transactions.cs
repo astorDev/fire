@@ -103,7 +103,7 @@ public record TransactionDetails(
     decimal RequestedAmount,
     decimal Amount,
     decimal NetAmount,
-    decimal AmountUSD,
+    decimal? AmountUSD,
     decimal Fee,
     decimal NetworkFee,
     long CreatedAt,
@@ -138,7 +138,7 @@ public record AmountInfo(
     decimal Amount,
     decimal RequestedAmount,
     decimal NetAmount,
-    decimal AmountUsd
+    decimal? AmountUsd
 );
 
 public record FeeInfo(
