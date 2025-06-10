@@ -1,0 +1,16 @@
+###
+GET /supported_assets
+
+###
+GET /vault/accounts_paged?namePrefix=fire-example-wallet
+
+###
+GET /gas_station
+
+###
+POST /vault/accounts
+
+{
+    "name" : "fire-example-wallet",
+    "autoFuel" : true
+}

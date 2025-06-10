@@ -24,7 +24,6 @@ module.exports = {
         api.hooks.onRequest.addHook('setupAuth', function (request, ctx) {
             var secret = ctx.variables["FIREBLOCKS_API_SECRET"];
             var apiKey = ctx.variables["FIREBLOCKS_API_KEY"];
-            var baseUrl = ctx.variables["FIREBLOCKS_URL"];
 
             if (!request.url.startsWith('https://api.fireblocks.io')) return;
 
