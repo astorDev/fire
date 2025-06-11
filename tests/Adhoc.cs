@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
-using Fire;
 
 namespace Fire.Blocks.Tests;
 
@@ -16,6 +13,16 @@ public class Adhoc : Test
         var transactions = await Client.GetTransaction(envs["TRANSACTION_ID"]);
         Console.WriteLine(JsonSerializer.Serialize(transactions));
     }
+
+    [TestMethod]
+    public async Task PostTransaction()
+    {
+        var candidate = Json.DeserializeFile<TransactionCandidate>("adhoc.transaction.json");
+        var transactions = await Client.PostTransaction(candidate);
+        Console.WriteLine(JsonSerializer.Serialize(transactions));
+    }
+
+    [TestMethod] public void PostTransactionSync() => PostTransaction().GetAwaiter().GetResult();
 }
 
 public record Dotenvs(IDictionary<string, string> Values)
